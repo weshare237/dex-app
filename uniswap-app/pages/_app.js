@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../components/Style.css'
 
 import merge from 'lodash.merge'
 import '@rainbow-me/rainbowkit/styles.css'
@@ -6,21 +7,28 @@ import '@rainbow-me/rainbowkit/styles.css'
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  darkTheme,
   midnightTheme,
 } from '@rainbow-me/rainbowkit'
 
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
 const { chains, provider } = configureChains(
-  [chain.goerli],
+  [chain.mainnet, chain.sepolia, chain.arbitrum, chain.optimism, chain.polygon],
   [
     infuraProvider({
-      apiKey: 'f0267a8d7d5642caa8735db53507eefd',
+      apiKey: '35e86f89b81d45a8a62ed9bb6ab1f3e6',
       priority: 1,
     }),
-  ],
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: `https://sepolia.infura.io/v3/35e86f89b81d45a8a62ed9bb6ab1f3e6`,
+        webSocket:
+          'wss://sepolia.infura.io/ws/v3/35e86f89b81d45a8a62ed9bb6ab1f3e6',
+      }),
+    }),
+  ]
 )
 
 const { connectors } = getDefaultWallets({

@@ -1,47 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import TokenBalance from './TokenBalance';
+import React from 'react'
 
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
-import { useAccount } from 'wagmi';
-
-import toast, { Toaster } from 'react-hot-toast';
-import NavItems from './NavItems';
+import { Toaster } from 'react-hot-toast'
+import NavItems from './NavItems'
+import Link from 'next/link'
 
 const Header = () => {
-  const [tokenBalComp, setTokenBalComp] = useState();
-
-  const { address } = useAccount();
-
-  const notifyConnectWallet = () =>
-    toast.error('Connect wallet.', { duration: 2000 });
-
-  useEffect(() => {
-    setTokenBalComp(
-      <>
-        <TokenBalance name={'CoinA'} walletAddress={address} />
-        <TokenBalance name={'CoinB'} walletAddress={address} />
-        <TokenBalance name={'CoinC'} walletAddress={address} />
-      </>
-    );
-
-    if (!address) notifyConnectWallet();
-  }, [address]);
-
   return (
     <header className='fixed w-full top-0 z-50'>
       <nav className='bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800'>
         <div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl'>
-          <a href='https://flowbite.com' className='flex items-center'>
-            <img
-              src='./uniswap.png'
-              className='mr-3 h-6 sm:h-9'
-              alt='Flowbite Logo'
-            />
-            <span className='self-center text-xl font-semibold whitespace-nowrap dark:text-white'>
-              DEXchange
-            </span>
-          </a>
+          <Link href='/'>
+            <a href='javascript:void(0)' className='flex items-center'>
+              <img
+                src='./uniswap.png'
+                className='mr-3 h-6 sm:h-9'
+                alt='Flowbite Logo'
+              />
+              <span className='self-center text-xl font-semibold whitespace-nowrap dark:text-white'>
+                DEXchange
+              </span>
+            </a>
+          </Link>
           <div className='flex items-center lg:order-2'>
             <div className='flex'>
               <ConnectButton className='mx-8' accountStatus={'full'} />
@@ -61,9 +42,9 @@ const Header = () => {
                 xmlns='http://www.w3.org/2000/svg'
               >
                 <path
-                  fill-rule='evenodd'
+                  fillRule='evenodd'
                   d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
-                  clip-rule='evenodd'
+                  clipRule='evenodd'
                 ></path>
               </svg>
               <svg
@@ -73,9 +54,9 @@ const Header = () => {
                 xmlns='http://www.w3.org/2000/svg'
               >
                 <path
-                  fill-rule='evenodd'
+                  fillRule='evenodd'
                   d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-                  clip-rule='evenodd'
+                  clipRule='evenodd'
                 ></path>
               </svg>
             </button>
@@ -90,7 +71,7 @@ const Header = () => {
         </div>
       </nav>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

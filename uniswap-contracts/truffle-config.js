@@ -18,8 +18,8 @@
  *
  */
 
-require("dotenv").config();
-const HDWalletProvider = require("@truffle/hdwallet-provider");
+require('dotenv').config()
+const HDWalletProvider = require('@truffle/hdwallet-provider')
 
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
@@ -43,9 +43,9 @@ module.exports = {
     // options below to some value.
     //
     development: {
-      host: "127.0.0.1", // Localhost (default: none)
+      host: '127.0.0.1', // Localhost (default: none)
       port: 7545, // Standard Ethereum port (default: none)
-      network_id: "*", // Any network (default: none)
+      network_id: '*', // Any network (default: none)
     },
     //
     // An additional network, but with some advanced options…
@@ -60,21 +60,21 @@ module.exports = {
     //
     // Useful for deploying to a public network.
     // Note: It's important to wrap the provider as a function to ensure truffle uses a new provider every time.
-    ropsten: {
-      provider: () =>
-        new HDWalletProvider({
-          privateKeys: [process.env.WALLET_PRIVATE_KEY],
-          numberOfAddresses: 1,
-          providerOrUrl: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-        }),
-      network_id: 3, // Ropsten's id
-      //  This is the timeout config. set it to 1000 seconds
-      networkCheckTimeout: 1000000,
-      gas: 5500000, // Ropsten has a lower block limit than mainnet
-      confirmations: 2, // # of confirmations to wait between deployments. (default: 0)
-      timeoutBlocks: 200, // # of blocks before a deployment times out  (minimum/default: 50)
-      skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
-    },
+    // ropsten: {
+    //   provider: () =>
+    //     new HDWalletProvider({
+    //       privateKeys: [process.env.WALLET_PRIVATE_KEY],
+    //       numberOfAddresses: 1,
+    //       providerOrUrl: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+    //     }),
+    //   network_id: 3, // Ropsten's id
+    //   //  This is the timeout config. set it to 1000 seconds
+    //   networkCheckTimeout: 1000000,
+    //   gas: 5500000, // Ropsten has a lower block limit than mainnet
+    //   confirmations: 2, // # of confirmations to wait between deployments. (default: 0)
+    //   timeoutBlocks: 200, // # of blocks before a deployment times out  (minimum/default: 50)
+    //   skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
+    // },
     //
     // Useful for private networks
     // private: {
@@ -92,7 +92,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.15", // Fetch exact version from solc-bin (default: truffle's version)
+      version: '0.8.15', // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
@@ -124,4 +124,4 @@ module.exports = {
   //     }
   //   }
   // }
-};
+}

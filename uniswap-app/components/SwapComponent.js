@@ -1,255 +1,228 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useState } from 'react'
+import { Input, Popover, Radio, Modal } from 'antd'
 import {
-  hasValidAllowance,
-  increaseAllowance,
-  swapEthToToken,
-  swapTokenToEth,
-  swapTokenToToken,
-} from '../utils/queries'
+  ArrowDownOutlined,
+  DownOutlined,
+  SettingOutlined,
+} from '@ant-design/icons'
 
-import { CogIcon, ArrowSmDownIcon } from '@heroicons/react/outline'
-import SwapField from './SwapField'
-import TransactionStatus from './TransactionStatus'
-import toast, { Toaster } from 'react-hot-toast'
-import { DEFAULT_VALUE, ETH } from '../utils/SupportedCoins'
-import { toEth, toWei } from '../utils/ether-utils'
-import { useAccount } from 'wagmi'
+import tokenList from './tokenList.json'
+import uniswapFactoryABI from './UniFactory.json'
+import uniRouter from './UniRouter.json'
+import { ethers } from 'ethers'
 
-const SwapComponent = () => {
-  const [srcToken, setSrcToken] = useState(ETH)
-  const [destToken, setDestToken] = useState(DEFAULT_VALUE)
+function SwapComponent() {
+  const [slippage, setSlippage] = useState(2.5)
+  const [tokenOneAmount, setTokenOneAmount] = useState(null)
+  const [tokenTwoAmount, setTokenTwoAmount] = useState(null)
+  const [tokenOne, setTokenOne] = useState(tokenList[4])
+  const [tokenTwo, setTokenTwo] = useState(tokenList[1])
+  const [isOpen, setIsOpen] = useState(false)
+  const [changeToken, setChangeToken] = useState(1)
+  const [prices, setPrices] = useState(null)
+  const [oneN, setOneN] = useState()
 
-  const [inputValue, setInputValue] = useState()
-  const [outputValue, setOutputValue] = useState()
+  function sendTransaction() {}
 
-  const inputValueRef = useRef()
-  const outputValueRef = useRef()
+  async function fetchPairAndCalculateAmount(
+    tokenOneAddress,
+    tokenTwoAddress,
+    tokenOneAmount
+  ) {
+    const INFURA_ID = '35e86f89b81d45a8a62ed9bb6ab1f3e6'
+    const provider = new ethers.providers.JsonRpcProvider(
+      `https://mainnet.infura.io/v3/${INFURA_ID}`
+    )
+    const uniswapFactoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
+    const uniswapRouterAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 
-  const isReversed = useRef(false)
+    const uniswapFactory = new ethers.Contract(
+      uniswapFactoryAddress,
+      uniswapFactoryABI,
+      provider
+    )
 
-  const INCREASE_ALLOWANCE = 'Increase allowance'
-  const ENTER_AMOUNT = 'Enter an amount'
-  const CONNECT_WALLET = 'Connect wallet'
-  const SWAP = 'Swap'
+    try {
+      // UNCOMMENT THIS IF YOU WANT TO SEE THE PAIR FETCHED
+      // const pairAddress = await uniswapFactory.getPair(
+      //   tokenOneAddress,
+      //   tokenTwoAddress
+      // );
+      // console.log(`Pair Address : ${pairAddress}`);
 
-  const srcTokenObj = {
-    id: 'srcToken',
-    value: inputValue,
-    setValue: setInputValue,
-    defaultValue: srcToken,
-    ignoreValue: destToken,
-    setToken: setSrcToken,
+      const uniswapRouter = new ethers.Contract(
+        uniswapRouterAddress,
+        uniRouter,
+        provider
+      )
+
+      const amountIn = ethers.utils.parseUnits(
+        `${tokenOneAmount}`,
+        `${tokenOne.decimals}`
+      )
+      const path = [tokenOneAddress, tokenTwoAddress]
+      const amount = await uniswapRouter.getAmountsOut(amountIn, path)
+
+      const one_eth = ethers.utils.parseUnits('1', `${tokenOne.decimals}`)
+      const set_eth = await uniswapRouter.getAmountsOut(one_eth, path)
+
+      setTokenTwoAmount(
+        parseFloat(
+          ethers.utils.formatUnits(amount[1], `${tokenTwo.decimals}`)
+        ).toFixed(2)
+      )
+      setOneN(
+        parseFloat(
+          ethers.utils.formatUnits(set_eth[1], `${tokenTwo.decimals}`)
+        ).toFixed(6)
+      )
+    } catch (error) {
+      console.error('Error fetching pair and calculating amount:', error)
+    }
   }
 
-  const destTokenObj = {
-    id: 'destToken',
-    value: outputValue,
-    setValue: setOutputValue,
-    defaultValue: destToken,
-    ignoreValue: srcToken,
-    setToken: setDestToken,
+  function changeAmount(e) {
+    setTokenOneAmount(e.target.value)
+    if (e.target.value) {
+      fetchPairAndCalculateAmount(
+        tokenOne.address,
+        tokenTwo.address,
+        e.target.value
+      )
+    } else {
+      setTokenTwoAmount(null)
+    }
   }
 
-  const [srcTokenComp, setSrcTokenComp] = useState()
-  const [destTokenComp, setDestTokenComp] = useState()
+  function handleSlippageChange(e) {
+    setSlippage(e.target.value)
+  }
 
-  const [swapBtnText, setSwapBtnText] = useState(ENTER_AMOUNT)
-  const [txPending, setTxPending] = useState(false)
+  function switchTokens() {
+    setPrices(null)
+    setTokenOneAmount(null)
+    setTokenTwoAmount(null)
+    const one = tokenOne
+    const two = tokenTwo
+    setTokenOne(two)
+    setTokenTwo(one)
+  }
 
-  const notifyError = msg => toast.error(msg, { duration: 6000 })
-  const notifySuccess = () => toast.success('Transaction completed.')
+  function openModal(asset) {
+    setChangeToken(asset)
+    setIsOpen(true)
+  }
 
-  const { address } = useAccount()
+  function modifyToken(i) {
+    setPrices(null)
+    setTokenOneAmount(null)
+    setTokenTwoAmount(null)
+    if (changeToken === 1) {
+      setTokenOne(tokenList[i])
+    } else {
+      setTokenTwo(tokenList[i])
+    }
+    setIsOpen(false)
+  }
 
-  useEffect(() => {
-    // Handling the text of the submit button
-
-    if (!address) setSwapBtnText(CONNECT_WALLET)
-    else if (!inputValue || !outputValue) setSwapBtnText(ENTER_AMOUNT)
-    else setSwapBtnText(SWAP)
-  }, [inputValue, outputValue, address])
-
-  useEffect(() => {
-    if (
-      document.activeElement !== outputValueRef.current &&
-      document.activeElement.ariaLabel !== 'srcToken' &&
-      !isReversed.current
-    )
-      populateOutputValue(inputValue)
-
-    setSrcTokenComp(<SwapField obj={srcTokenObj} ref={inputValueRef} />)
-
-    if (inputValue?.length === 0) setOutputValue('')
-  }, [inputValue, destToken])
-
-  useEffect(() => {
-    if (
-      document.activeElement !== inputValueRef.current &&
-      document.activeElement.ariaLabel !== 'destToken' &&
-      !isReversed.current
-    )
-      populateInputValue(outputValue)
-
-    setDestTokenComp(<SwapField obj={destTokenObj} ref={outputValueRef} />)
-
-    if (outputValue?.length === 0) setInputValue('')
-
-    // Resetting the isReversed value if its set
-    if (isReversed.current) isReversed.current = false
-  }, [outputValue, srcToken])
-
-  return (
-    <div className='bg-zinc-900 w-[35%] p-4 px-6 rounded-xl'>
-      <div className='flex items-center justify-between py-4 px-1'>
-        <p>Swap</p>
-        <CogIcon className='h-6' />
+  const settings = (
+    <>
+      <div>Slippage Tolerance</div>
+      <div>
+        <Radio.Group value={slippage} onChange={handleSlippageChange}>
+          <Radio.Button value={0.5}>0.5%</Radio.Button>
+          <Radio.Button value={2.5}>2.5%</Radio.Button>
+          <Radio.Button value={5}>5.0%</Radio.Button>
+        </Radio.Group>
       </div>
-      <div className='relative bg-[#212429] p-4 py-6 rounded-xl mb-2 border-[2px] border-transparent hover:border-zinc-600'>
-        {srcTokenComp}
-
-        <ArrowSmDownIcon
-          className='absolute left-1/2 -translate-x-1/2 -bottom-6 h-10 p-1 bg-[#212429] border-4 border-zinc-900 text-zinc-300 rounded-xl cursor-pointer hover:scale-110'
-          onClick={handleReverseExchange}
-        />
-      </div>
-
-      <div className='bg-[#212429] p-4 py-6 rounded-xl mt-2 border-[2px] border-transparent hover:border-zinc-600'>
-        {destTokenComp}
-      </div>
-
-      <button
-        className={getSwapBtnClassName()}
-        onClick={() => {
-          if (swapBtnText === INCREASE_ALLOWANCE) handleIncreaseAllowance()
-          else if (swapBtnText === SWAP) handleSwap()
-        }}
-      >
-        {swapBtnText}
-      </button>
-
-      {txPending && <TransactionStatus />}
-
-      <Toaster />
-    </div>
+    </>
   )
 
-  async function handleSwap() {
-    if (srcToken === ETH && destToken !== ETH) {
-      performSwap()
-    } else {
-      // Check whether there is allowance when the swap deals with tokenToEth/tokenToToken
-      setTxPending(true)
-      const result = await hasValidAllowance(address, srcToken, inputValue)
-      setTxPending(false)
+  return (
+    <>
+      <Modal
+        open={isOpen}
+        footer={null}
+        onCancel={() => setIsOpen(false)}
+        title='Select a token'
+      >
+        <div className='modalContent'>
+          {tokenList?.map((e, i) => {
+            return (
+              <div
+                className='tokenChoice'
+                key={i}
+                onClick={() => modifyToken(i)}
+              >
+                <img src={e.img} alt={e.ticker} className='tokenLogo' />
+                <div className='tokenChoiceNames'>
+                  <div className='tokenName'>{e.name}</div>
+                  <div className='tokenTicker'>{e.ticker}</div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </Modal>
 
-      if (result) performSwap()
-      else handleInsufficientAllowance()
-    }
-  }
-
-  async function handleIncreaseAllowance() {
-    // Increase the allowance
-    setTxPending(true)
-    await increaseAllowance(srcToken, inputValue)
-    setTxPending(false)
-
-    // Set the swapbtn to "Swap" again
-    setSwapBtnText(SWAP)
-  }
-
-  function handleReverseExchange(e) {
-    // Setting the isReversed value to prevent the input/output values
-    // being calculated in their respective side - effects
-    isReversed.current = true
-
-    // 1. Swap tokens (srcToken <-> destToken)
-    // 2. Swap values (inputValue <-> outputValue)
-
-    setInputValue(outputValue)
-    setOutputValue(inputValue)
-
-    setSrcToken(destToken)
-    setDestToken(srcToken)
-  }
-
-  function getSwapBtnClassName() {
-    let className = 'p-4 w-full my-2 rounded-xl'
-    className +=
-      swapBtnText === ENTER_AMOUNT || swapBtnText === CONNECT_WALLET
-        ? ' text-zinc-400 bg-zinc-800 pointer-events-none'
-        : ' bg-blue-700'
-    className += swapBtnText === INCREASE_ALLOWANCE ? ' bg-yellow-600' : ''
-    return className
-  }
-
-  function populateOutputValue() {
-    if (
-      destToken === DEFAULT_VALUE ||
-      srcToken === DEFAULT_VALUE ||
-      !inputValue
-    )
-      return
-
-    try {
-      if (srcToken !== ETH && destToken !== ETH) setOutputValue(inputValue)
-      else if (srcToken === ETH && destToken !== ETH) {
-        const outValue = toEth(toWei(inputValue), 14)
-        setOutputValue(outValue)
-      } else if (srcToken !== ETH && destToken === ETH) {
-        const outValue = toEth(toWei(inputValue, 14))
-        setOutputValue(outValue)
-      }
-    } catch (error) {
-      setOutputValue('0')
-    }
-  }
-
-  function populateInputValue() {
-    if (
-      destToken === DEFAULT_VALUE ||
-      srcToken === DEFAULT_VALUE ||
-      !outputValue
-    )
-      return
-
-    try {
-      if (srcToken !== ETH && destToken !== ETH) setInputValue(outputValue)
-      else if (srcToken === ETH && destToken !== ETH) {
-        const outValue = toEth(toWei(outputValue, 14))
-        setInputValue(outValue)
-      } else if (srcToken !== ETH && destToken === ETH) {
-        const outValue = toEth(toWei(outputValue), 14)
-        setInputValue(outValue)
-      }
-    } catch (error) {
-      setInputValue('0')
-    }
-  }
-
-  async function performSwap() {
-    setTxPending(true)
-
-    let receipt
-
-    if (srcToken === ETH && destToken !== ETH)
-      receipt = await swapEthToToken(destToken, inputValue)
-    else if (srcToken !== ETH && destToken === ETH)
-      receipt = await swapTokenToEth(srcToken, inputValue)
-    else receipt = await swapTokenToToken(srcToken, destToken, inputValue)
-
-    setTxPending(false)
-
-    if (receipt && !receipt.hasOwnProperty('transactionHash'))
-      notifyError(receipt)
-    else notifySuccess()
-  }
-
-  function handleInsufficientAllowance() {
-    notifyError(
-      "Insufficient allowance. Click 'Increase allowance' to increase it.",
-    )
-    setSwapBtnText(INCREASE_ALLOWANCE)
-  }
+      <div className='tradeBox'>
+        <div className='tradeBoxHeader'>
+          <h4>Swap</h4>
+          <Popover
+            content={settings}
+            title='Settings'
+            trigger='click'
+            placement='bottomRight'
+          >
+            <SettingOutlined className='cog' />
+          </Popover>
+        </div>
+        <div className='inputs'>
+          <Input
+            type='number'
+            placeholder='0'
+            value={tokenOneAmount}
+            onChange={changeAmount}
+          />
+          <Input
+            type='number'
+            placeholder='0'
+            value={tokenTwoAmount}
+            disabled={true}
+          />
+          <div className='switchButton' onClick={switchTokens}>
+            <ArrowDownOutlined className='switchArrow' />
+          </div>
+          <div className='assetOne' onClick={() => openModal(1)}>
+            <img src={tokenOne.img} alt='assetOneLogo' className='assetLogo' />
+            {tokenOne.ticker}
+            <DownOutlined />
+          </div>
+          <div className='assetTwo' onClick={() => openModal(2)}>
+            <img src={tokenTwo.img} alt='assetOneLogo' className='assetLogo' />
+            {tokenTwo.ticker}
+            <DownOutlined />
+          </div>
+        </div>
+        {tokenOneAmount !== null &&
+          tokenOneAmount !== '0' &&
+          tokenOneAmount.trim() !== '' && (
+            <div className='calculate'>
+              {tokenTwoAmount !== null
+                ? `1 ${tokenOne.ticker} = ${oneN} ${tokenTwo.ticker}`
+                : 'Calculating price...'}
+            </div>
+          )}
+        <div
+          className='swapButton'
+          disabled={!tokenOneAmount}
+          onClick={sendTransaction}
+        >
+          Swap
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default SwapComponent
