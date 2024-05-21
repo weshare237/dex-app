@@ -50,7 +50,7 @@ export const TransactionProvider = ({ children }: Props) => {
     metamask = eth,
     connectedAccount = currentAccount
   ) => {
-    const provider = new ethers.providers.JsonRpcProvider()
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
 
     // Define the transaction object
@@ -60,15 +60,6 @@ export const TransactionProvider = ({ children }: Props) => {
     const to = '0x8dAd68030080C755E8157Fa782C951782A92b5Ff' // Example address
     const value = ethers.utils.parseEther('0.001')
     const data = '0x'
-
-    // Ensure the account has enough Ether to cover the transaction cost
-    const accountBalance = await provider.getBalance(connectedAccount!)
-    const transactionCost = ethers.BigNumber.from(gasPrice)
-      .mul(ethers.BigNumber.from(gasLimit))
-      .add(ethers.utils.parseEther('0.001')) // Assuming 0.001 ETH transfer
-    if (accountBalance.lt(transactionCost)) {
-      throw new Error('Insufficient funds')
-    }
 
     const transaction = {
       nonce: ethers.utils.hexlify(nonce),
@@ -116,7 +107,11 @@ export const TransactionProvider = ({ children }: Props) => {
         ethers.utils.hexlify(signedRawTransaction)
       )
 
-      console.log('response', txResponse)
+      setIsLoading(true)
+
+      await txResponse.wait()
+
+      setIsLoading(false)
     } catch (error) {
       console.error('Error signing message', error)
     }
