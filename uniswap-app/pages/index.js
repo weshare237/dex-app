@@ -1,7 +1,6 @@
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Review from '../components/Review'
-import SwapComponent from '../components/SwapComponent'
 
 export default function Home() {
   return (
@@ -50,9 +49,9 @@ export default function Home() {
                         xmlns='http://www.w3.org/2000/svg'
                       >
                         <path
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
-                          stroke-width='2'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='2'
                           d='M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01'
                         ></path>
                       </svg>
@@ -81,9 +80,9 @@ export default function Home() {
                         xmlns='http://www.w3.org/2000/svg'
                       >
                         <path
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
-                          stroke-width='2'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='2'
                           d='M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4'
                         ></path>
                       </svg>
@@ -112,9 +111,9 @@ export default function Home() {
                         xmlns='http://www.w3.org/2000/svg'
                       >
                         <path
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
-                          stroke-width='2'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='2'
                           d='M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4'
                         ></path>
                       </svg>
@@ -285,16 +284,16 @@ const Step = () => {
           </p>
           <div className='top-0 right-0 flex items-center justify-center h-24 lg:-mr-8 lg:absolute'>
             <svg
-              class='w-8 text-gray-700 transform rotate-90 lg:rotate-0'
+              className='w-8 text-gray-700 transform rotate-90 lg:rotate-0'
               stroke='currentColor'
-              stroke-width='2'
-              stroke-linecap='round'
-              stroke-linejoin='round'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
               viewBox='0 0 24 24'
             >
               <line
                 fill='none'
-                stroke-miterlimit='10'
+                strokeMiterlimit='10'
                 x1='2'
                 y1='12'
                 x2='22'
@@ -302,7 +301,7 @@ const Step = () => {
               />
               <polyline
                 fill='none'
-                stroke-miterlimit='10'
+                strokeMiterlimit='10'
                 points='15,5 22,12 15,19 '
               />
             </svg>
