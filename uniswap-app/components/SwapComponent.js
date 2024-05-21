@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input, Popover, Radio, Modal } from 'antd'
 import {
   ArrowDownOutlined,
@@ -10,6 +10,30 @@ import tokenList from './tokenList.json'
 import uniswapFactoryABI from './UniFactory.json'
 import uniRouter from './UniRouter.json'
 import { ethers } from 'ethers'
+import TransactionModal from 'react-modal'
+import { useRouter } from 'next/router'
+import TransactionLoader from './TransactionLoader'
+import { TransactionState } from '../context/TransactionContext'
+import { useAccount } from 'wagmi'
+
+TransactionModal.setAppElement('#__next')
+
+// Transaction Loader
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: '#0a0b0d',
+    padding: 0,
+    border: 'none',
+  },
+  overlay: {
+    backgroundColor: 'rgba(10, 11, 13, 0.75)',
+  },
+}
 
 function SwapComponent() {
   const [slippage, setSlippage] = useState(2.5)
@@ -22,7 +46,20 @@ function SwapComponent() {
   const [prices, setPrices] = useState(null)
   const [oneN, setOneN] = useState()
 
-  function sendTransaction() {}
+  const router = useRouter()
+  const account = useAccount()
+
+  const { sendTransaction, setCurrentAccount } = TransactionState()
+
+  useEffect(() => {
+    setCurrentAccount(account.address)
+  }, [account, setCurrentAccount])
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    sendTransaction()
+  }
 
   async function fetchPairAndCalculateAmount(
     tokenOneAddress,
@@ -43,13 +80,6 @@ function SwapComponent() {
     )
 
     try {
-      // UNCOMMENT THIS IF YOU WANT TO SEE THE PAIR FETCHED
-      // const pairAddress = await uniswapFactory.getPair(
-      //   tokenOneAddress,
-      //   tokenTwoAddress
-      // );
-      // console.log(`Pair Address : ${pairAddress}`);
-
       const uniswapRouter = new ethers.Contract(
         uniswapRouterAddress,
         uniRouter,
@@ -216,11 +246,14 @@ function SwapComponent() {
         <div
           className='swapButton'
           disabled={!tokenOneAmount}
-          onClick={sendTransaction}
+          onClick={handleSubmit}
         >
           Swap
         </div>
       </div>
+      <TransactionModal isOpen={!!router.query.loading} style={customStyles}>
+        <TransactionLoader />{' '}
+      </TransactionModal>
     </>
   )
 }

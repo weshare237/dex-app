@@ -1,7 +1,7 @@
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import Review from '../components/Review';
-import SwapComponent from '../components/SwapComponent';
+import Footer from '../components/Footer'
+import Header from '../components/Header'
+import Review from '../components/Review'
+import SwapComponent from '../components/SwapComponent'
 
 export default function Home() {
   return (
@@ -164,156 +164,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='w-full py-12 bg-gray-100'>
-        <section>
-          <h2 className='text-4xl lg:text-5xl font-extrabold text-white mb-6 md:!leading-[55px] text-center text-gray-700'>
-            How It Works
-          </h2>
-
-          <div className='content-center lg:flex lg:justify-center lg:items-center'>
-            <div className='flex justify-center pt-10 m-auto lg:w-1/4 lg:mx-6 lg:my-8'>
-              <div className='relative w-64 h-48'>
-                <div className='absolute top-0 left-0 flex items-center w-64 h-40 mt-6 ml-6 bg-white border-8 border-gray-700 border-solid rounded-lg'>
-                  <div className='w-1/3 h-40'></div>
-                  <div className='w-2/3 h-32 pr-4'>
-                    <h3 className='pt-1 text-xl font-semibold text-gray-700'>
-                      Analyse
-                    </h3>
-                    <p className='pt-1 text-sm text-gray-600'>
-                      Select currencies you want to swap and click the Exchange
-                      button.
-                    </p>
-                  </div>
-                </div>
-                <div className='absolute top-0 left-0 z-20 w-12 h-12 mt-6 ml-6 bg-white rounded-full'>
-                  <svg
-                    className='mt-2 ml-2'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='#e53e3e'
-                    width='32px'
-                    height='32px'
-                  >
-                    <path d='M0 0h24v24H0z' fill='none' />
-                    <path d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z' />
-                  </svg>
-                </div>
-                <div className='absolute top-0 left-0 z-10 w-24 h-40 py-20 text-5xl font-bold text-center text-white bg-red-600 rounded-lg'>
-                  01
-                </div>
-                <div className='absolute top-0 left-0 z-30 w-24 h-2 mt-40 ml-48 bg-red-600'></div>
-              </div>
-            </div>
-            <div className='flex justify-center pt-10 m-auto lg:w-1/4 lg:mx-6 lg:my-8'>
-              <div className='relative w-64 h-48'>
-                <div className='absolute top-0 left-0 flex items-center w-64 h-40 mt-6 ml-6 bg-white border-8 border-gray-700 border-solid rounded-lg'>
-                  <div className='w-1/3 h-40'></div>
-                  <div className='w-2/3 h-32 pr-4'>
-                    <h3 className='pt-1 text-xl font-semibold text-gray-700'>
-                      Design
-                    </h3>
-                    <p className='pt-1 text-sm text-gray-600'>
-                      The currency you want to receive will be sent to this
-                      address after the exchange.
-                    </p>
-                  </div>
-                </div>
-                <div className='absolute top-0 left-0 z-20 w-12 h-12 mt-6 ml-6 bg-white rounded-full'>
-                  <svg
-                    className='mt-2 ml-2'
-                    xmlns='http://www.w3.org/2000/svg'
-                    enable-background='new 0 0 24 24'
-                    viewBox='0 0 24 24'
-                    fill='#38a169'
-                    width='32px'
-                    height='32px'
-                  >
-                    <g>
-                      <rect fill='none' height='24' width='24' />
-                    </g>
-                    <g>
-                      <g>
-                        <path d='M6.36,18.78L6.61,21l1.62-1.54l2.77-7.6c-0.68-0.17-1.28-0.51-1.77-0.98L6.36,18.78z' />
-                        <path d='M14.77,10.88c-0.49,0.47-1.1,0.81-1.77,0.98l2.77,7.6L17.39,21l0.26-2.22L14.77,10.88z' />
-                        <path d='M15,8c0-1.3-0.84-2.4-2-2.82V3h-2v2.18C9.84,5.6,9,6.7,9,8c0,1.66,1.34,3,3,3S15,9.66,15,8z M12,9c-0.55,0-1-0.45-1-1 c0-0.55,0.45-1,1-1s1,0.45,1,1C13,8.55,12.55,9,12,9z' />
-                      </g>
-                    </g>
-                  </svg>
-                </div>
-                <div className='absolute top-0 left-0 z-10 w-24 h-40 py-20 text-5xl font-bold text-center text-white bg-green-600 rounded-lg'>
-                  02
-                </div>
-                <div className='absolute top-0 left-0 z-30 w-24 h-2 mt-40 ml-48 bg-green-600'></div>
-              </div>
-            </div>
-            <div className='flex justify-center pt-10 m-auto lg:w-1/4 lg:mx-6 lg:my-8'>
-              <div className='relative w-64 h-48'>
-                <div className='absolute top-0 left-0 flex items-center w-64 h-40 mt-6 ml-6 bg-white border-8 border-gray-700 border-solid rounded-lg'>
-                  <div className='w-1/3 h-40'></div>
-                  <div className='w-2/3 h-32 pr-4'>
-                    <h3 className='pt-1 text-xl font-semibold text-gray-700'>
-                      Develop
-                    </h3>
-                    <p className='pt-1 text-sm text-gray-600'>
-                      Submit a developed solution to the given problem sets.
-                    </p>
-                  </div>
-                </div>
-                <div className='absolute top-0 left-0 z-20 w-12 h-12 mt-6 ml-6 bg-white rounded-full'>
-                  <svg
-                    className='mt-2 ml-2'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='#3182ce'
-                    width='32px'
-                    height='32px'
-                  >
-                    <path d='M0 0h24v24H0V0z' fill='none' />
-                    <path d='M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z' />
-                  </svg>
-                </div>
-                <div className='absolute top-0 left-0 z-10 w-24 h-40 py-20 text-5xl font-bold text-center text-white bg-blue-600 rounded-lg'>
-                  03
-                </div>
-                <div className='absolute top-0 left-0 z-30 w-24 h-2 mt-40 ml-48 bg-blue-600'></div>
-              </div>
-            </div>
-            <div className='flex justify-center pt-10 m-auto lg:w-1/4 lg:mx-6 lg:my-8'>
-              <div className='relative w-64 h-48'>
-                <div className='absolute top-0 left-0 flex items-center w-64 h-40 mt-6 ml-6 bg-white border-8 border-gray-700 border-solid rounded-lg'>
-                  <div className='w-1/3 h-40'></div>
-                  <div className='w-2/3 h-32 pr-4'>
-                    <h3 className='pt-1 text-xl font-semibold text-gray-700'>
-                      Develop
-                    </h3>
-                    <p className='pt-1 text-sm text-gray-600'>
-                      The exchange status “Finished” means that the swap process
-                      is over
-                    </p>
-                  </div>
-                </div>
-                <div className='absolute top-0 left-0 z-20 w-12 h-12 mt-6 ml-6 bg-white rounded-full'>
-                  <svg
-                    className='mt-2 ml-2'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='#3182ce'
-                    width='32px'
-                    height='32px'
-                  >
-                    <path d='M0 0h24v24H0V0z' fill='none' />
-                    <path d='M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z' />
-                  </svg>
-                </div>
-                <div className='absolute top-0 left-0 z-10 w-24 h-40 py-20 text-5xl font-bold text-center text-white bg-blue-600 rounded-lg'>
-                  04
-                </div>
-                <div className='absolute top-0 left-0 z-30 w-24 h-2 mt-40 ml-48 bg-blue-600'></div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+      <Step />
 
       <section className='dark:text-white w-full'>
         <div className='container flex flex-col justify-center px-4 py-8 mx-auto md:p-8'>
@@ -369,5 +220,168 @@ export default function Home() {
 
       <Footer />
     </div>
-  );
+  )
+}
+
+const Step = () => {
+  return (
+    <div className='px-4 py-16 mx-auto  w-full md:px-24 lg:px-8 lg:py-20 bg-white'>
+      <div className='max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12'>
+        <div className='text-center'>
+          <p className='inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400'>
+            Brand new
+          </p>
+        </div>
+        <h2 className='max-w-lg mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto text-center'>
+          <span className='relative inline-block'>
+            <svg
+              viewBox='0 0 52 24'
+              fill='currentColor'
+              className='absolute top-0 left-0 z-0 hidden w-32 -mt-8 -ml-20 text-blue-gray-100 lg:w-32 lg:-ml-28 lg:-mt-10 sm:block'
+            >
+              <defs>
+                <pattern
+                  id='f51618fb-0edb-4bcb-b35a-ffc770941286'
+                  x='0'
+                  y='0'
+                  width='.135'
+                  height='.30'
+                >
+                  <circle cx='1' cy='1' r='.7' />
+                </pattern>
+              </defs>
+              <rect
+                fill='url(#f51618fb-0edb-4bcb-b35a-ffc770941286)'
+                width='52'
+                height='24'
+              />
+            </svg>
+            <span className='relative text-gray-700'>How It Works</span>
+          </span>{' '}
+        </h2>
+      </div>
+      <div className='grid gap-8 row-gap-0 lg:grid-cols-3'>
+        <div className='relative text-center'>
+          <div className='flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-black sm:w-20 sm:h-20'>
+            <svg
+              className='w-12 h-12 text-deep-purple-accent-400 sm:w-16 sm:h-16'
+              stroke='currentColor'
+              viewBox='0 0 52 52'
+            >
+              <polygon
+                strokeWidth='3'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                fill='none'
+                points='29 13 14 29 25 29 23 39 38 23 27 23'
+              />
+            </svg>
+          </div>
+          <h6 className='mb-2 text-2xl font-extrabold text-gray-700'>
+            Choose a currency pair
+          </h6>
+          <p className='max-w-md mb-3 text-sm text-gray-900 sm:mx-auto'>
+            Select currencies you want to swap and click the Swap button.
+          </p>
+          <div className='top-0 right-0 flex items-center justify-center h-24 lg:-mr-8 lg:absolute'>
+            <svg
+              class='w-8 text-gray-700 transform rotate-90 lg:rotate-0'
+              stroke='currentColor'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              viewBox='0 0 24 24'
+            >
+              <line
+                fill='none'
+                stroke-miterlimit='10'
+                x1='2'
+                y1='12'
+                x2='22'
+                y2='12'
+              />
+              <polyline
+                fill='none'
+                stroke-miterlimit='10'
+                points='15,5 22,12 15,19 '
+              />
+            </svg>
+          </div>
+        </div>
+        <div className='relative text-center'>
+          <div className='flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-black sm:w-20 sm:h-20'>
+            <svg
+              className='w-12 h-12 text-deep-purple-accent-400 sm:w-16 sm:h-16'
+              stroke='currentColor'
+              viewBox='0 0 52 52'
+            >
+              <polygon
+                strokeWidth='3'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                fill='none'
+                points='29 13 14 29 25 29 23 39 38 23 27 23'
+              />
+            </svg>
+          </div>
+          <h6 className='mb-2 text-2xl font-extrabold text-gray-700'>
+            Enter the recipient’s address
+          </h6>
+          <p className='max-w-md mb-3 text-sm text-gray-900 sm:mx-auto'>
+            The currency you want to receive will be sent to this address after
+            the exchange.
+          </p>
+
+          <div className='top-0 right-0 flex items-center justify-center h-24 lg:-mr-8 lg:absolute'>
+            <svg
+              className='w-8 text-gray-700 transform rotate-90 lg:rotate-0'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              viewBox='0 0 24 24'
+            >
+              <line
+                fill='none'
+                strokeMiterlimit='10'
+                x1='2'
+                y1='12'
+                x2='22'
+                y2='12'
+              />
+              <polyline
+                fill='none'
+                strokeMiterlimit='10'
+                points='15,5 22,12 15,19 '
+              />
+            </svg>
+          </div>
+        </div>
+        <div className='relative text-center'>
+          <div className='flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-black sm:w-20 sm:h-20'>
+            <svg
+              className='w-12 h-12 text-deep-purple-accent-400 sm:w-16 sm:h-16'
+              stroke='currentColor'
+              viewBox='0 0 52 52'
+            >
+              <polygon
+                strokeWidth='3'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                fill='none'
+                points='29 13 14 29 25 29 23 39 38 23 27 23'
+              />
+            </svg>
+          </div>
+          <h6 className='mb-2 text-2xl font-extrabold text-gray-700'>
+            Send and recieve coins
+          </h6>
+          <p className='max-w-md mb-3 text-sm text-gray-900 sm:mx-auto'>
+            To continue, send the indicated amount of coins to the deposit
+            address.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
 }

@@ -9,6 +9,7 @@ import {
   RainbowKitProvider,
   midnightTheme,
 } from '@rainbow-me/rainbowkit'
+import { TransactionProvider } from '../context/TransactionContext'
 
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
@@ -53,7 +54,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} theme={myTheme}>
-        <Component {...pageProps} />
+        <TransactionProvider>
+          <Component {...pageProps} />
+        </TransactionProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   )
