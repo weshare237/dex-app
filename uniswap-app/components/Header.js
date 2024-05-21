@@ -5,6 +5,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { Toaster } from 'react-hot-toast'
 import NavItems from './NavItems'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const Header = () => {
   return (

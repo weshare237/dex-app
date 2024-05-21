@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 const Footer = () => {
   return (
@@ -15,7 +16,7 @@ const Footer = () => {
               <img
                 src='https://cdn-icons-png.flaticon.com/512/888/888857.png'
                 className='w-7 md:w-8'
-                alt=''
+                alt='footer icon'
               />
               <div className='text-left ml-3'>
                 <p className='text-xs text-gray-200'>Download on </p>
@@ -26,6 +27,7 @@ const Footer = () => {
               <img
                 src='https://cdn-icons-png.flaticon.com/512/888/888841.png'
                 className='w-7 md:w-8'
+                alt=''
               />
               <div className='text-left ml-3'>
                 <p className='text-xs text-gray-200'>Download on </p>

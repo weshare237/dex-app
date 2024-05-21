@@ -1,5 +1,6 @@
 import React from 'react'
 import tokenList from './tokenList.json'
+import Image from 'next/image'
 
 function Tokens() {
   return (

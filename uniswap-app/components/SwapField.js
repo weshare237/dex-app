@@ -4,6 +4,12 @@ import Selector from './Selector'
 const SwapField = React.forwardRef(({ obj }, inputRef) => {
   const { id, value = '', setValue, defaultValue, setToken, ignoreValue } = obj
 
+  function getInputClassname() {
+    let className =
+      ' w-full outline-none h-8 px-2 appearance-none text-3xl bg-transparent'
+    return className
+  }
+
   return (
     <div className='flex items-center rounded-xl'>
       <input
@@ -12,7 +18,7 @@ const SwapField = React.forwardRef(({ obj }, inputRef) => {
         type={'number'}
         value={value}
         placeholder={'0.0'}
-        onChange={e => {
+        onChange={(e) => {
           setValue(e.target.value)
         }}
       />
@@ -25,12 +31,8 @@ const SwapField = React.forwardRef(({ obj }, inputRef) => {
       />
     </div>
   )
-
-  function getInputClassname() {
-    let className =
-      ' w-full outline-none h-8 px-2 appearance-none text-3xl bg-transparent'
-    return className
-  }
 })
+
+SwapField.displayName = 'SwapField'
 
 export default SwapField

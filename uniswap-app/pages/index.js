@@ -1,6 +1,7 @@
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Review from '../components/Review'
+import Image from 'next/image'
 
 export default function Home() {
   return (
@@ -120,7 +121,7 @@ export default function Home() {
                     </div>
                     <div className='flex-grow'>
                       <h2 className='text-xl title-font font-medium mb-3'>
-                        You won't be left alone
+                        You won&apos;t be left alone
                       </h2>
                       <p className='leading-relaxed text-sm text-justify'>
                         Our support team is easy to reach and ready to answer
@@ -171,46 +172,48 @@ export default function Home() {
             Frequently Asked Questions
           </h2>
           <div className='mx-auto w-full md:w-1/2 py-8 mt-4 mb-8'>
-            <img src='./faq.svg' className='g-image' alt='' />
+            <img
+              src='./faq.svg'
+              alt='Frequently Asked Questions'
+              className='w-11/12 mx-auto'
+            />
           </div>
-          <div className='space-y-4'>
-            <details className='w-full border rounded-lg' open=''>
-              <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
-                What is DEXchange?
+          <div className='container grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mx-auto'>
+            <details className='w-full border rounded-lg'>
+              <summary className='px-4 py-6 focus:outline-none focus-visible:ring-violet-400'>
+                How to make my first exchange on SimpleSwap?
               </summary>
-              <p className='px-4 py-6 pt-0 ml-4 -mt-4 dark:text-white'>
-                DEXchange is the first trading interface built on top of Ice
-                Protocol.
-                <br /> DEXchange is a Meta DEX aggregator that allows you to buy
-                and sell tokens using gasless orders that are settled
-                peer-to-peer among its users, or into any on-chain liquidity
-                source while providing MEV protection.
+              <p className='px-4 py-6 pt-0 ml-4 -mt-4 dark:text-gray-400'>
+                To make your first exchange, you need to go to the Main page and
+                follow the instructions.
               </p>
             </details>
             <details className='w-full border rounded-lg'>
-              <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
-                What types of orders does DEXchange support?
+              <summary className='px-4 py-6 focus:outline-none focus-visible:ring-violet-400'>
+                How to vote to list new coins on SimpleSwap?
               </summary>
-              <p className='px-4 py-6 pt-0 ml-4 -mt-4 dark:text-white'>
-                Swap buy and sell orders, which are always Fill or kill.
-                <br /> Limit buy and sell orders, which can either be Partially
-                fillable or Fill or kill. By default, limit orders are Partially
-                fillable. DEXchange is the first trading interface built on top
-                of Bear Protocol.
+              <p className='px-4 py-6 pt-0 ml-4 -mt-4 dark:text-gray-400'>
+                You need to fill in the coin listing form on our website. We
+                will consider your application and notify you as soon as
+                possible.
               </p>
             </details>
             <details className='w-full border rounded-lg'>
-              <summary className='px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600'>
-                What token pairs DEXchange doesn't allow yout to trade?
+              <summary className='px-4 py-6 focus:outline-none focus-visible:ring-violet-400'>
+                How to become a partner of SimpleSwap?
               </summary>
-              <p className='px-4 py-6 pt-0 ml-4 -mt-4 dark:text-white'>
-                Unfortunately, DEXchange does not support some tokens. While
-                these tokens implement the typical ERC20 interface, when calling
-                the transfer and transferFrom methods, the actual amount the
-                receiver will get will be smaller than the specified sent
-                amount. This causes problems with DEXchange's settlement logic
-                which expects the received amount (e.g., from a Uniswap
-                interaction) to be fully transferable to the trader.
+              <p className='px-4 py-6 pt-0 ml-4 -mt-4 dark:text-gray-400'>
+                To become a SimpleSwap partner, you need to fill in the form on
+                our website.
+              </p>
+            </details>
+            <details className='w-full border rounded-lg'>
+              <summary className='px-4 py-6 focus:outline-none focus-visible:ring-violet-400'>
+                Does SimpleSwap have an affiliate program?
+              </summary>
+              <p className='px-4 py-6 pt-0 ml-4 -mt-4 dark:text-gray-400'>
+                Yes, we do. We are happy to share our experience and profit with
+                our partners.
               </p>
             </details>
           </div>

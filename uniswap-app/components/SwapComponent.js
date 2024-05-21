@@ -5,6 +5,7 @@ import {
   DownOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
+import Image from 'next/image'
 
 import tokenList from './tokenList.json'
 import uniswapFactoryABI from './UniFactory.json'
