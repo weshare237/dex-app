@@ -5,7 +5,6 @@ import {
   DownOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
-import Image from 'next/image'
 
 import tokenList from './tokenList.json'
 import uniswapFactoryABI from './UniFactory.json'
@@ -71,14 +70,7 @@ function SwapComponent() {
     const provider = new ethers.providers.JsonRpcProvider(
       `https://mainnet.infura.io/v3/${INFURA_ID}`
     )
-    const uniswapFactoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
     const uniswapRouterAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
-
-    const uniswapFactory = new ethers.Contract(
-      uniswapFactoryAddress,
-      uniswapFactoryABI,
-      provider
-    )
 
     try {
       const uniswapRouter = new ethers.Contract(

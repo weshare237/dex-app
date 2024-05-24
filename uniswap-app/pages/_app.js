@@ -5,43 +5,23 @@ import merge from 'lodash.merge'
 import '@rainbow-me/rainbowkit/styles.css'
 
 import {
-  getDefaultWallets,
+  getDefaultConfig,
   RainbowKitProvider,
   midnightTheme,
 } from '@rainbow-me/rainbowkit'
+import { WagmiProvider } from 'wagmi'
+import { mainnet, polygon, optimism, arbitrum, sepolia } from 'wagmi/chains'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { TransactionProvider } from '../context/TransactionContext'
 
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
-import { infuraProvider } from 'wagmi/providers/infura'
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
-
-const { chains, provider } = configureChains(
-  [chain.mainnet, chain.sepolia, chain.arbitrum, chain.optimism, chain.polygon],
-  [
-    infuraProvider({
-      apiKey: '35e86f89b81d45a8a62ed9bb6ab1f3e6',
-      priority: 1,
-    }),
-    jsonRpcProvider({
-      rpc: (chain) => ({
-        http: `https://sepolia.infura.io/v3/35e86f89b81d45a8a62ed9bb6ab1f3e6`,
-        webSocket:
-          'wss://sepolia.infura.io/ws/v3/35e86f89b81d45a8a62ed9bb6ab1f3e6',
-      }),
-    }),
-  ]
-)
-
-const { connectors } = getDefaultWallets({
-  appName: 'Custom Dex',
-  chains,
+const config = getDefaultConfig({
+  appName: 'My RainbowKit App',
+  projectId: '96376117668837e5de7eb66e0931eebb',
+  chains: [mainnet, polygon, optimism, arbitrum, sepolia],
+  ssr: true, // If your dApp uses server side rendering (SSR)
 })
 
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider,
-})
+const queryClient = new QueryClient()
 
 const myTheme = merge(midnightTheme(), {
   colors: {
@@ -52,13 +32,15 @@ const myTheme = merge(midnightTheme(), {
 
 function MyApp({ Component, pageProps }) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} theme={myTheme}>
-        <TransactionProvider>
-          <Component {...pageProps} />
-        </TransactionProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <TransactionProvider>
+            <Component {...pageProps} />
+          </TransactionProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   )
 }
 
