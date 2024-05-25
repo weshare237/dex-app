@@ -18,6 +18,7 @@
     "@sanity/client": "^3.3.5",
     "@tanstack/react-query": "^5.37.1",
     "antd": "^5.1.5",
+    "connectkit": "^1.7.3",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.0.2",
     "ethers": "^5.6.9",
@@ -29,7 +30,7 @@
     "react-spinners": "^0.13.4",
     "rlp": "^3.0.0",
     "viem": "^2.12.1",
-    "wagmi": "^2.9.6"
+    "wagmi": "^2.9.7"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",

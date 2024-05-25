@@ -1,11 +1,9 @@
 import React from 'react'
 
-import { ConnectButton } from '@rainbow-me/rainbowkit'
-
 import { Toaster } from 'react-hot-toast'
 import NavItems from './NavItems'
 import Link from 'next/link'
-import Image from 'next/image'
+import { ConnectKitButton } from 'connectkit'
 
 const Header = () => {
   return (
@@ -26,11 +24,7 @@ const Header = () => {
           </Link>
           <div className='flex items-center lg:order-2'>
             <div className='flex'>
-              <ConnectButton
-                className='mx-8'
-                accountStatus={'full'}
-                modalSize='compact'
-              />
+              <ConnectKitButton />
             </div>
             <button
               data-collapse-toggle='mobile-menu-2'
