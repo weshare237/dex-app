@@ -43,6 +43,8 @@ const config = getDefaultConfig({
       wallets: [trustWallet, argentWallet, ledgerWallet, uniswapWallet],
     },
   ],
+  appUrl: 'https://dex-app-wheat.vercel.app/',
+  appDescription: 'A decentralized token exchange app',
 })
 
 const queryClient = new QueryClient()
