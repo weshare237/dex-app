@@ -18,8 +18,8 @@ import { ethers } from 'ethers'
 import TransactionModal from 'react-modal'
 import { useRouter } from 'next/router'
 import TransactionLoader from './TransactionLoader'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
 import rlp from 'rlp'
+import { ConnectKitButton } from 'connectkit'
 
 TransactionModal.setAppElement('#__next')
 
@@ -268,7 +268,7 @@ function SwapComponent() {
           </>
         ) : (
           <div className='mx-auto p-2'>
-            <ConnectButton accountStatus={'full'} modalSize='compact' />
+            <ConnectKitButton />
           </div>
         )}
       </div>
