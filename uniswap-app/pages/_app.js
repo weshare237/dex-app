@@ -3,22 +3,46 @@ import '../components/Style.css'
 
 import merge from 'lodash.merge'
 import '@rainbow-me/rainbowkit/styles.css'
+import 'dotenv/config'
 
 import {
   getDefaultConfig,
   RainbowKitProvider,
   midnightTheme,
+  getDefaultWallets,
 } from '@rainbow-me/rainbowkit'
-import { WagmiProvider } from 'wagmi'
+import { WagmiProvider, http } from 'wagmi'
 import { mainnet, polygon, optimism, arbitrum, sepolia } from 'wagmi/chains'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { TransactionProvider } from '../context/TransactionContext'
+
+import {
+  argentWallet,
+  ledgerWallet,
+  trustWallet,
+  uniswapWallet,
+} from '@rainbow-me/rainbowkit/wallets'
+
+const { wallets } = getDefaultWallets()
+
+const projectId = '96376117668837e5de7eb66e0931eebb'
+const infuraId = '35e86f89b81d45a8a62ed9bb6ab1f3e6'
+const chains = [mainnet, polygon, optimism, arbitrum, sepolia]
 
 const config = getDefaultConfig({
-  appName: 'My RainbowKit App',
-  projectId: '96376117668837e5de7eb66e0931eebb',
-  chains: [mainnet, polygon, optimism, arbitrum, sepolia],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+  appName: 'Dexchange',
+  projectId,
+  chains,
+  transports: {
+    [mainnet.id]: http(`https://mainnet.infura.io/v3/${infuraId}`),
+    [sepolia.id]: http(`https://sepolia.infura.io/v3/${infuraId}`),
+  },
+  wallets: [
+    ...wallets,
+    {
+      groupName: 'More',
+      wallets: [trustWallet, argentWallet, ledgerWallet, uniswapWallet],
+    },
+  ],
 })
 
 const queryClient = new QueryClient()
@@ -35,9 +59,7 @@ function MyApp({ Component, pageProps }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <TransactionProvider>
-            <Component {...pageProps} />
-          </TransactionProvider>
+          <Component {...pageProps} />
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

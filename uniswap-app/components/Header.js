@@ -26,7 +26,11 @@ const Header = () => {
           </Link>
           <div className='flex items-center lg:order-2'>
             <div className='flex'>
-              <ConnectButton className='mx-8' accountStatus={'full'} />
+              <ConnectButton
+                className='mx-8'
+                accountStatus={'full'}
+                modalSize='compact'
+              />
             </div>
             <button
               data-collapse-toggle='mobile-menu-2'

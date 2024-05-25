@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Input, Popover, Radio, Modal } from 'antd'
 import {
   ArrowDownOutlined,
   DownOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
+import {
+  useAccount,
+  useSendTransaction,
+  useWaitForTransactionReceipt,
+} from 'wagmi'
+import { parseEther } from 'viem'
 
 import tokenList from './tokenList.json'
-import uniswapFactoryABI from './UniFactory.json'
 import uniRouter from './UniRouter.json'
 import { ethers } from 'ethers'
 import TransactionModal from 'react-modal'
 import { useRouter } from 'next/router'
 import TransactionLoader from './TransactionLoader'
-import { TransactionState } from '../context/TransactionContext'
-import { useAccount } from 'wagmi'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import rlp from 'rlp'
 
 TransactionModal.setAppElement('#__next')
 
@@ -46,19 +51,31 @@ function SwapComponent() {
   const [prices, setPrices] = useState(null)
   const [oneN, setOneN] = useState()
 
-  const router = useRouter()
   const account = useAccount()
+  const router = useRouter()
+  const { data: hash, sendTransaction, isPending } = useSendTransaction()
 
-  const { sendTransaction, setCurrentAccount } = TransactionState()
-
-  useEffect(() => {
-    setCurrentAccount(account.address)
-  }, [account, setCurrentAccount])
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    })
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    sendTransaction()
+    const to = '0x8dAd68030080C755E8157Fa782C951782A92b5Ff'
+    const value = '0.001'
+
+    const transaction = {
+      to,
+      value: parseEther(value).toHexString(),
+    }
+
+    const encodedTransaction = rlp
+      .encode([transaction.to, transaction.value])
+      .toString('hex')
+
+    sendTransaction({ data: encodedTransaction })
   }
 
   async function fetchPairAndCalculateAmount(
@@ -189,7 +206,7 @@ function SwapComponent() {
       </Modal>
 
       <div className='tradeBox'>
-        <div className='tradeBoxHeader'>
+        <div className='tradeBoxHeader mb-2'>
           <h4>Swap</h4>
           <Popover
             content={settings}
@@ -236,13 +253,24 @@ function SwapComponent() {
                 : 'Calculating price...'}
             </div>
           )}
-        <div
-          className='swapButton'
-          disabled={!tokenOneAmount}
-          onClick={handleSubmit}
-        >
-          Swap
-        </div>
+        {account.address ? (
+          <>
+            <div
+              className='swapButton'
+              disabled={!tokenOneAmount || isPending}
+              onClick={handleSubmit}
+            >
+              {isPending ? 'Swapping...' : 'Swap'}
+            </div>
+            {hash && <div>Transaction Hash: {hash}</div>}
+            {isConfirming && <div>Waiting for confirmation...</div>}
+            {isConfirmed && <div>Transaction confirmed.</div>}
+          </>
+        ) : (
+          <div className='mx-auto p-2'>
+            <ConnectButton accountStatus={'full'} modalSize='compact' />
+          </div>
+        )}
       </div>
       <TransactionModal isOpen={!!router.query.loading} style={customStyles}>
         <TransactionLoader />{' '}
