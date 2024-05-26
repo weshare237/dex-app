@@ -134,7 +134,7 @@ const chains = [
 // initialize the module with options
 const metamaskSDKWallet = metamaskSDK({
   options: {
-    extensionOnly: false,
+    extensionOnly: true,
     dappMetadata: {
       name: 'DEXchange',
     },
