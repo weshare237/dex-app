@@ -170,7 +170,6 @@ const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true })
 
 const web3Onboard = init({
   wallets: [
-    metamaskSDKWallet,
     walletConnect,
     coinbaseWalletSdk,
     infinityWalletSDK,
