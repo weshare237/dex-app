@@ -174,17 +174,12 @@ const web3Onboard = init({
     walletConnect,
     coinbaseWalletSdk,
     infinityWalletSDK,
-    injectedModule({
-      filter: {
-        // allow only on non android mobile
-        [ProviderLabel.Detected]: ['Android', 'desktop'],
-      },
-    }),
+    injectedModule(),
   ],
   chains,
   appMetadata: {
     name: 'DEXchange',
-    icon: './uniswap.png',
+    icon: '<svg>My App</svg>',
     description:
       'DEXchange is a cryptocurrency exchange that allows to swap BTC and altcoins in an easy way. DiceSwap supports 1000 cryptocurrencies. Make Bitcoin to Ethereum, Litecoin crypto exchanges at the best rates!',
   },
