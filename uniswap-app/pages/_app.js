@@ -134,7 +134,7 @@ const chains = [
 // initialize the module with options
 const metamaskSDKWallet = metamaskSDK({
   options: {
-    extensionOnly: true,
+    extensionOnly: false,
     dappMetadata: {
       name: 'DEXchange',
     },
@@ -170,15 +170,10 @@ const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true })
 
 const web3Onboard = init({
   wallets: [
+    metamaskSDKWallet,
     walletConnect,
     coinbaseWalletSdk,
     infinityWalletSDK,
-    injectedModule({
-      filter: {
-        // allow only on non android mobile
-        [ProviderLabel.Detected]: ['Android', 'desktop'],
-      },
-    }),
   ],
   chains,
   appMetadata: {
