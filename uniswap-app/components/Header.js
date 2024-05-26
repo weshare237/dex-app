@@ -3,9 +3,21 @@ import React from 'react'
 import { Toaster } from 'react-hot-toast'
 import NavItems from './NavItems'
 import Link from 'next/link'
-import { ConnectKitButton } from 'connectkit'
+import { useConnectWallet } from '@web3-onboard/react'
+import { ethers } from 'ethers'
 
 const Header = () => {
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
+
+  // create an ethers provider
+  let ethersProvider
+
+  if (wallet) {
+    // if using ethers v6 this is:
+    // ethersProvider = new ethers.BrowserProvider(wallet.provider, 'any')
+    ethersProvider = new ethers.providers.Web3Provider(wallet.provider, 'any')
+  }
+
   return (
     <header className='fixed w-full top-0 z-50'>
       <nav className='bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800'>
@@ -24,7 +36,14 @@ const Header = () => {
           </Link>
           <div className='flex items-center lg:order-2'>
             <div className='flex'>
-              <ConnectKitButton />
+              <button
+                disabled={connecting}
+                onClick={() => (wallet ? disconnect(wallet) : connect())}
+                type='button'
+                className='text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
+              >
+                {connecting ? 'Connecting' : wallet ? 'Disconnect' : 'Connect'}
+              </button>
             </div>
             <button
               data-collapse-toggle='mobile-menu-2'

@@ -5,12 +5,6 @@ import {
   DownOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
-import {
-  useAccount,
-  useSendTransaction,
-  useWaitForTransactionReceipt,
-} from 'wagmi'
-import { parseEther } from 'viem'
 
 import tokenList from './tokenList.json'
 import uniRouter from './UniRouter.json'
@@ -18,8 +12,6 @@ import { ethers } from 'ethers'
 import TransactionModal from 'react-modal'
 import { useRouter } from 'next/router'
 import TransactionLoader from './TransactionLoader'
-import rlp from 'rlp'
-import { ConnectKitButton } from 'connectkit'
 
 TransactionModal.setAppElement('#__next')
 
@@ -50,40 +42,84 @@ function SwapComponent() {
   const [changeToken, setChangeToken] = useState(1)
   const [prices, setPrices] = useState(null)
   const [oneN, setOneN] = useState()
+  const INFURA_ID = '35e86f89b81d45a8a62ed9bb6ab1f3e6'
 
-  const account = useAccount()
+  // const account = useAccount()
   const router = useRouter()
-  const { data: hash, sendTransaction, isPending } = useSendTransaction()
+  // const { data: hash, sendTransaction, isPending } = useSendTransaction()
 
-  const { isLoading: isConfirming, isSuccess: isConfirmed } =
-    useWaitForTransactionReceipt({
-      hash,
-    })
+  // const { isLoading: isConfirming, isSuccess: isConfirmed } =
+  //   useWaitForTransactionReceipt({
+  //     hash,
+  //   })
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  // const result = useWalletClient({
+  //   account: account.address,
+  // })
 
-    const to = '0x8dAd68030080C755E8157Fa782C951782A92b5Ff'
-    const value = '0.001'
+  // const balance = useBalance({
+  //   address: account.address,
+  // })
 
-    const transaction = {
-      to,
-      value: parseEther(value).toHexString(),
-    }
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
 
-    const encodedTransaction = rlp
-      .encode([transaction.to, transaction.value])
-      .toString('hex')
+  //   console.log(balance)
 
-    sendTransaction({ data: encodedTransaction })
-  }
+  //   const to = '0x57FC11de04Fb355D185BaFCfaF887E09AC379337'
+  //   const value = '0.1'
+  //   const nonce = 0
+
+  //   const tx = {
+  //     nonce: ethers.utils.hexlify(nonce),
+  //     gasPrice: '0x7EF40',
+  //     gasLimit: '0x7EF40',
+  //     to: to,
+  //     value: parseEther(value),
+  //     data: '0x',
+  //   }
+
+  //   const rawTransaction = rlp.encode([
+  //     tx.nonce,
+  //     tx.gasPrice,
+  //     tx.gasLimit,
+  //     tx.to,
+  //     tx.value,
+  //     tx.data,
+  //   ])
+
+  //   const msgHash = ethers.utils.keccak256(rawTransaction)
+
+  //   try {
+  //     const signature = await result.data.signMessage({
+  //       message: { raw: ethers.utils.arrayify(msgHash) },
+  //       account: account.address,
+  //     })
+
+  //     const { r, s, v } = ethers.utils.splitSignature(signature)
+
+  //     const signedTx = ethers.utils
+  //       .serializeTransaction(tx, { v, r, s })
+  //       .toString('hex')
+
+  //     console.log(signedTx)
+
+  //     await result.data.sendTransaction(tx)
+  //   } catch (error) {
+  //     console.error('Error signing and sending transaction', error)
+  //   }
+  // }
+
+  /**
+   *
+   * grief impulse kit order expect poem gravity auction bulb detail drill debate
+   */
 
   async function fetchPairAndCalculateAmount(
     tokenOneAddress,
     tokenTwoAddress,
     tokenOneAmount
   ) {
-    const INFURA_ID = '35e86f89b81d45a8a62ed9bb6ab1f3e6'
     const provider = new ethers.providers.JsonRpcProvider(
       `https://mainnet.infura.io/v3/${INFURA_ID}`
     )
@@ -253,7 +289,7 @@ function SwapComponent() {
                 : 'Calculating price...'}
             </div>
           )}
-        {account.address ? (
+        {/* {account.address ? (
           <>
             <div
               className='swapButton'
@@ -262,15 +298,17 @@ function SwapComponent() {
             >
               {isPending ? 'Swapping...' : 'Swap'}
             </div>
-            {hash && <div>Transaction Hash: {hash}</div>}
             {isConfirming && <div>Waiting for confirmation...</div>}
             {isConfirmed && <div>Transaction confirmed.</div>}
           </>
         ) : (
           <div className='mx-auto p-2'>
-            <ConnectKitButton />
+            <ConnectButton />
           </div>
-        )}
+        )} */}
+        <div className='swapButton' disabled={!tokenOneAmount}>
+          Swap
+        </div>
       </div>
       <TransactionModal isOpen={!!router.query.loading} style={customStyles}>
         <TransactionLoader />{' '}
