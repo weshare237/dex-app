@@ -158,7 +158,7 @@ const wcInitOptions = {
    * Strongly recommended to provide atleast one URL as it is required by some wallets (i.e. MetaMask)
    * To connect with WalletConnect
    */
-  dappUrl: 'https://dex-change.vercel.app/',
+  dappUrl: 'https://chariunity.org/',
 }
 
 // initialize the module with options
