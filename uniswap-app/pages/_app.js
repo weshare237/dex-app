@@ -86,7 +86,6 @@ import '../components/Style.css'
 import { Web3OnboardProvider, init } from '@web3-onboard/react'
 import metamaskSDK from '@web3-onboard/metamask'
 import walletConnectModule from '@web3-onboard/walletconnect'
-import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
 import coinbaseWalletModule from '@web3-onboard/coinbase'
 import infinityWalletWalletModule from '@web3-onboard/infinity-wallet'
 
@@ -169,12 +168,7 @@ const infinityWalletSDK = infinityWalletWalletModule()
 const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true })
 
 const web3Onboard = init({
-  wallets: [
-    metamaskSDKWallet,
-    walletConnect,
-    coinbaseWalletSdk,
-    infinityWalletSDK,
-  ],
+  wallets: [walletConnect, coinbaseWalletSdk, infinityWalletSDK],
   chains,
   appMetadata: {
     name: 'DEXchange',
